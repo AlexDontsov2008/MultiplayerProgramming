@@ -24,13 +24,23 @@ using namespace std;
 const size_t BUFFER_SIZE = 1024;
 
 int main(int argc, char** argv) {
+#ifdef _WIN32
+    WSAData wsaData;
+    int wsaStartupErr = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if( wsaStartupErr != 0)
+    {
+        printf("WSAStartup error: %d", wsaStartupErr);
+        exit(1);
+    }
+#endif
+
 #ifdef SERVER
     /* ********************* UDP SERVER ********************* */
     // 1. Создать UDP socket
     auto udpSocket = SocketUtil::CreateUDPSocket(INET);
     assert(udpSocket);
     // 2. Создать socket_address
-    auto serverAddress = SocketAddressFactory::CreateIPv4FromString("127.0.0.1:7891");
+    auto serverAddress = SocketAddressFactory::CreateIPv4FromString("192.168.0.104:7891");
     assert(serverAddress);
     // 3. Связать UDP socket с socket_address
     int error = udpSocket->Bind(*serverAddress);
@@ -64,7 +74,7 @@ int main(int argc, char** argv) {
     auto udpSocket = SocketUtil::CreateUDPSocket(INET);
     assert(udpSocket);
     // 2. Задать SocketAddress сервера
-    auto serverAddress = SocketAddressFactory::CreateIPv4FromString("127.0.0.1:7891");
+    auto serverAddress = SocketAddressFactory::CreateIPv4FromString("192.168.0.105:7891");
     assert(serverAddress);
     // 4. Цикл UDP клиента
     char buffer[BUFFER_SIZE];
@@ -76,6 +86,15 @@ int main(int argc, char** argv) {
 
         // Отправить данные серверу
         const int sendByteCount = udpSocket->SendTo(buffer, BUFFER_SIZE, *serverAddress);
+    }
+#endif
+
+#ifdef _WIN32
+    int wsaCleanupErr = WSACleanup();
+    if( wsaCleanupErr != 0)
+    {
+        printf("WSACleanup error: %d", wsaCleanupErr);
+        exit(1);
     }
 #endif
     return 0;
