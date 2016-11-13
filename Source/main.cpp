@@ -51,8 +51,8 @@ int main(int argc, char** argv) {
     char buffer[BUFFER_SIZE];
     bool IsUDPServerRun = true;
     SocketAddressPtr clientAddress = std::make_shared<SocketAddress>();
+    printf("UDP Server Running\n");
     while (IsUDPServerRun) {
-        printf("UDP Server Running\n");
         // Получить данные
         const int readByteCount = udpSocket->ReceiveFrom(buffer, BUFFER_SIZE, *clientAddress);
         if (readByteCount < 0) {

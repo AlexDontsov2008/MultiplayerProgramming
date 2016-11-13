@@ -7,13 +7,13 @@ SocketAddressPtr SocketAddressFactory::CreateIPv4FromString(const std::string& i
     std::string host, service;
     if( pos != std::string::npos )
     {
-    host = inAddrStr.substr( 0, pos );
-    service = inAddrStr.substr( pos + 1 );
+        host = inAddrStr.substr( 0, pos );
+        service = inAddrStr.substr( pos + 1 );
     }
     else
     {
-    host = inAddrStr;
-    service = DEFAULT_PORT;
+        host = inAddrStr;
+        service = DEFAULT_PORT;
     }
     addrinfo hint;
     memset( &hint, 0, sizeof( hint ) );
@@ -23,18 +23,18 @@ SocketAddressPtr SocketAddressFactory::CreateIPv4FromString(const std::string& i
     int error = getaddrinfo( host.c_str(), service.c_str(), &hint, &result );
     if( error != 0 && result != nullptr )
     {
-    SocketUtil::ReportError( "SocketAddressFactory::CreateIPv4FromString" );
-    return nullptr;
+        SocketUtil::ReportError( "SocketAddressFactory::CreateIPv4FromString" );
+        return nullptr;
     }
 
     while( !result->ai_addr && result->ai_next )
     {
-    result = result->ai_next;
+        result = result->ai_next;
     }
 
     if( !result->ai_addr )
     {
-    return nullptr;
+        return nullptr;
     }
 
     auto toRet = std::make_shared< SocketAddress >( *result->ai_addr );

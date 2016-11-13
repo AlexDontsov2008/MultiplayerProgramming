@@ -14,7 +14,6 @@
 #ifdef _WIN32
 #include "WinSock2.h"
 #else
-#include "netinet/in.h"
 #include "netdb.h"
 #endif
 

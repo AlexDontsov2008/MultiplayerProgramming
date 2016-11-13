@@ -70,7 +70,7 @@ int UDPSocket::ReceiveFrom(void* inBuffer, int inLen, SocketAddress& outFrom) {
         return readByteCount;
     } else {
         int error = SocketUtil::GetLastError();
-
+#ifdef _WIN32
         if( error == WSAEWOULDBLOCK )
         {
             return 0;
@@ -85,6 +85,7 @@ int UDPSocket::ReceiveFrom(void* inBuffer, int inLen, SocketAddress& outFrom) {
             SocketUtil::ReportError( "UDPSocket::ReceiveFrom" );
             return -error;
         }
+#endif
         SocketUtil::ReportError("UDPSocket::ReceiveFrom");
         return -SocketUtil::GetLastError();
     }
