@@ -9,9 +9,11 @@
 #include <algorithm>
 #include <cassert>
 
+#ifdef _linux
 #include "sys/socket.h"
 #include "arpa/inet.h"
 #include "netdb.h"
+#endif
 
 #include "SocketAddress.hpp"
 #include "SocketAddressFactory.hpp"
@@ -41,20 +43,22 @@ int main(int argc, char** argv) {
     SocketAddressPtr clientAddress = std::make_shared<SocketAddress>();
     while (IsUDPServerRun) {
         printf("UDP Server Running\n");
-        //      Получить данные
+        // Получить данные
         const int readByteCount = udpSocket->ReceiveFrom(buffer, BUFFER_SIZE, *clientAddress);
         if (readByteCount < 0) {
             exit(1);
         }
-        //      Обработать данные
+        // Обработать данные
         for (int i = 0; i < readByteCount; ++i) {
             buffer[i] = toupper(buffer[i]);
         }
         printf("Received data from client: %s", buffer);
-        //      Отправить обработанные данные клиенту.
+        // Отправить обработанные данные клиенту.
         const int sendByteCount = udpSocket->SendTo(buffer, readByteCount, *clientAddress);
     }
-#else
+#endif
+
+#ifdef CLIENT
     /* ********************* UDP CLIENT ********************* */
     // 1. Создать UDP socket
     auto udpSocket = SocketUtil::CreateUDPSocket(INET);
@@ -70,7 +74,7 @@ int main(int argc, char** argv) {
         fgets(buffer, BUFFER_SIZE, stdin);
         printf("You typed: %s", buffer);
 
-        //      Отправить данные серверу
+        // Отправить данные серверу
         const int sendByteCount = udpSocket->SendTo(buffer, BUFFER_SIZE, *serverAddress);
     }
 #endif

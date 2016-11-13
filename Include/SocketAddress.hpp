@@ -13,7 +13,11 @@
 #include <cstring>
 #include <memory>
 
+#ifdef _WIN32
+#include <WS2tcpip.h>
+#else
 #include "netinet/in.h"
+#endif
 
 /** Каждый network layer packet требует source/destination адреса.
  *  Если пакет обертывает transport layer требуется source/destination порт.
@@ -63,9 +67,16 @@ public:
 
 private:
     friend class UDPSocket;
-
     sockaddr mSockAddr;
 
+#ifdef _WIN32
+	uint32_t& GetIP4Ref() {
+		return *(reinterpret_cast<uint32_t*>(&GetAsSockAddrIn()->sin_addr.S_un.S_addr));
+    }
+	const uint32_t& GetIP4Ref() const {
+		return *(reinterpret_cast<const uint32_t*>(&GetAsSockAddrIn()->sin_addr.S_un.S_addr));
+    }
+#else
     uint32_t& GetIP4Ref() {
         return GetAsSockAddrIn()->sin_addr.s_addr;
     }
@@ -73,7 +84,7 @@ private:
     const uint32_t& GetIP4Ref() const {
         return GetAsSockAddrIn()->sin_addr.s_addr;
     }
-
+#endif
     sockaddr_in* GetAsSockAddrIn() {
         return reinterpret_cast<sockaddr_in*>( &mSockAddr );
     }

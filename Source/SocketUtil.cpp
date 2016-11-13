@@ -5,11 +5,23 @@
  * Created on November 13, 2016, 1:48 PM
  */
 
+
+
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+
+#include "Windows.h"
+#include "Ws2tcpip.h"
+#else
 #include "errno.h"
+#endif
 
 #include "SocketUtil.hpp"
 
+#ifdef _linux
 const int ERROR = -1;
+#endif
 
 UDPSocketPtr SocketUtil::CreateUDPSocket(SocketAddressFamily inFamily) {
     SOCKET sock = socket(inFamily, SOCK_DGRAM, IPPROTO_UDP);
@@ -36,7 +48,7 @@ void SocketUtil::ReportError(const char* inOperationDesc) {
                     (LPTSTR) &lpMsgBuf,
                     0, NULL );
 
-    LOG( "Error %s: %d- %s", inOperationDesc, errorNum, lpMsgBuf );
+    printf( "Error %s: %d- %s", inOperationDesc, errorNum, lpMsgBuf );
 #else
     printf("Error: %s", inOperationDesc);
 #endif

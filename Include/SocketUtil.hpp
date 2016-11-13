@@ -8,7 +8,6 @@
 #ifndef SOCKETUTIL_HPP
 #define SOCKETUTIL_HPP
 
-#include "netdb.h"
 #include "UDPSocket.hpp"
 
 enum SocketAddressFamily {
