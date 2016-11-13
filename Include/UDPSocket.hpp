@@ -10,10 +10,13 @@
 
 #include <memory>
 
+#ifdef _linux
 #include "sys/socket.h"
 #include "netdb.h"
 
 typedef int SOCKET;
+#endif
+
 
 class SocketAddress;
 class SocketUtil;
