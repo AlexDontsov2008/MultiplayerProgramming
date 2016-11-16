@@ -12,8 +12,8 @@
 #define WIN32_LEAD_AND_MEAN
 #define NOMINAX
 
-#include "Windows.h"
 #include "WinSock2.h"
+#include "Windows.h"
 #include "Ws2tcpip.h"
 typedef int socklen_t;
 #else

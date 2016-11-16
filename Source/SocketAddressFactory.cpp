@@ -2,6 +2,7 @@
 #include "SocketSharedInfo.hpp"
 
 static const std::string DEFAULT_PORT = "0";
+
 SocketAddressPtr SocketAddressFactory::CreateIPv4FromString(const std::string& inAddrStr) {
     auto pos = inAddrStr.find_last_of( ':' );
     std::string host, service;
