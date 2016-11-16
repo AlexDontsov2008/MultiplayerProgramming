@@ -13,11 +13,7 @@
 #include <cstring>
 #include <memory>
 
-#ifdef _WIN32
-#include <WS2tcpip.h>
-#else
-#include "netinet/in.h"
-#endif
+#include "SocketSharedInfo.hpp"
 
 /** Каждый network layer packet требует source/destination адреса.
  *  Если пакет обертывает transport layer требуется source/destination порт.
@@ -67,6 +63,7 @@ public:
 
 private:
     friend class UDPSocket;
+    friend class TCPSocket;
     sockaddr mSockAddr;
 
 #ifdef _WIN32

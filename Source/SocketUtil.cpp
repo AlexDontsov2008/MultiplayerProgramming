@@ -5,30 +5,25 @@
  * Created on November 13, 2016, 1:48 PM
  */
 
-
-
-#ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-
-#include "Windows.h"
-#include "Ws2tcpip.h"
-#else
-#include "errno.h"
-#endif
-
 #include "SocketUtil.hpp"
-
-#ifdef _linux
-const int ERROR = -1;
-#endif
+#include "SocketSharedInfo.hpp"
 
 UDPSocketPtr SocketUtil::CreateUDPSocket(SocketAddressFamily inFamily) {
     SOCKET sock = socket(inFamily, SOCK_DGRAM, IPPROTO_UDP);
-    if (sock != ERROR) {
+    if (sock != INVALID_SOCKET) {
         return UDPSocketPtr(new UDPSocket(sock));
     } else {
         ReportError("SocketUtil::CreateUDPSocket");
+        return nullptr;
+    }
+}
+
+TCPSocketPtr SocketUtil::CreateTCPSocket(SocketAddressFamily inFamily) {
+    SOCKET sock = socket(inFamily, SOCK_STREAM, IPPROTO_TCP);
+    if (sock != INVALID_SOCKET) {
+        return TCPSocketPtr(new TCPSocket(sock));
+    } else {
+        ReportError("SocketUtil::CreateTCPSocket");
         return nullptr;
     }
 }

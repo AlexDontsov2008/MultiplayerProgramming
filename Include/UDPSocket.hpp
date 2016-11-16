@@ -10,16 +10,10 @@
 
 #include <memory>
 
-#ifdef _linux
-#include "sys/socket.h"
-#include "netdb.h"
+#include "SocketSharedInfo.hpp"
 
-typedef int SOCKET;
-#endif
-
-
-class SocketAddress;
 class SocketUtil;
+class SocketAddress;
 
 class UDPSocket {
 public:

@@ -9,6 +9,7 @@
 #define SOCKETUTIL_HPP
 
 #include "UDPSocket.hpp"
+#include "TCPSocket.hpp"
 
 enum SocketAddressFamily {
     INET = AF_INET,
@@ -21,6 +22,7 @@ public:
     static int GetLastError();
 
     static UDPSocketPtr CreateUDPSocket(SocketAddressFamily inFamily);
+    static TCPSocketPtr CreateTCPSocket(SocketAddressFamily inFamily);
 };
 
 #endif /* SOCKETUTIL_HPP */

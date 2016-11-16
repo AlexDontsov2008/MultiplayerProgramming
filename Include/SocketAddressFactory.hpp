@@ -11,12 +11,6 @@
 #include <string>
 #include <memory>
 
-#ifdef _WIN32
-#include "WinSock2.h"
-#else
-#include "netdb.h"
-#endif
-
 #include "SocketAddress.hpp"
 #include "SocketUtil.hpp"
 

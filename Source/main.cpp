@@ -9,12 +9,6 @@
 #include <algorithm>
 #include <cassert>
 
-#ifdef _linux
-#include "sys/socket.h"
-#include "arpa/inet.h"
-#include "netdb.h"
-#endif
-
 #include "SocketAddress.hpp"
 #include "SocketAddressFactory.hpp"
 #include "SocketUtil.hpp"
@@ -40,7 +34,7 @@ int main(int argc, char** argv) {
     auto udpSocket = SocketUtil::CreateUDPSocket(INET);
     assert(udpSocket);
     // 2. Создать socket_address
-    auto serverAddress = SocketAddressFactory::CreateIPv4FromString("192.168.0.104:7891");
+    auto serverAddress = SocketAddressFactory::CreateIPv4FromString("192.168.0.105:7891");
     assert(serverAddress);
     // 3. Связать UDP socket с socket_address
     int error = udpSocket->Bind(*serverAddress);

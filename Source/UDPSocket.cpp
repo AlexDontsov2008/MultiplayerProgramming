@@ -1,21 +1,6 @@
-#ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-
-#include "Windows.h"
-#include "Ws2tcpip.h"
-#else
-#include "netinet/in.h"
-#include "unistd.h"
-#endif
-
 #include "UDPSocket.hpp"
 #include "SocketAddress.hpp"
 #include "SocketUtil.hpp"
-
-#ifdef _linux
-const int NO_ERROR = 0;
-#endif
 
 
 /** Уведомление ОС о том что сокет будет использовать определенный адрес и порт
@@ -23,13 +8,6 @@ const int NO_ERROR = 0;
  * С Этого адреса сокет будет отправлять пакеты.
  */
 int UDPSocket::Bind(const SocketAddress& inBindAddress) {
-    // Выполняет связывание сокета с заданным адресом.
-    // Выполняет 2 цели:
-    // 1. Говорит ОС, что данный сокет будет получателем пакетов с местом назначения
-    //      совпадающим с указанным адресом(портом).
-    // 2. Обозначает source адрес и порт, которые socket lib должна использовать,
-    //      когда создает  netrwok и transport layer headers для пакетов,
-    //      отправляемых с этого сокета.
     int err = bind(mSocket, &inBindAddress.mSockAddr, inBindAddress.GetSize());
     if (err) {
         SocketUtil::ReportError("UDPSocket::Bind");
