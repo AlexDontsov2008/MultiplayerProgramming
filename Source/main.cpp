@@ -12,6 +12,7 @@
 #include "SocketAddress.hpp"
 #include "SocketAddressFactory.hpp"
 #include "SocketUtil.hpp"
+#include "UDPServer.hpp"
 
 using namespace std;
 
@@ -30,36 +31,8 @@ int main(int argc, char** argv) {
 
 #ifdef SERVER
     /* ********************* UDP SERVER ********************* */
-    // 1. Создать UDP socket
-    auto udpSocket = SocketUtil::CreateUDPSocket(INET);
-    assert(udpSocket);
-    // 2. Создать socket_address
-    auto serverAddress = SocketAddressFactory::CreateIPv4FromString("192.168.0.105:7891");
-    assert(serverAddress);
-    // 3. Связать UDP socket с socket_address
-    int error = udpSocket->Bind(*serverAddress);
-    if (error) {
-        exit(1);
-    }
-    // 4. Цикл UDP сервера
-    char buffer[BUFFER_SIZE];
-    bool IsUDPServerRun = true;
-    SocketAddressPtr clientAddress = std::make_shared<SocketAddress>();
-    printf("UDP Server Running\n");
-    while (IsUDPServerRun) {
-        // Получить данные
-        const int readByteCount = udpSocket->ReceiveFrom(buffer, BUFFER_SIZE, *clientAddress);
-        if (readByteCount < 0) {
-            exit(1);
-        }
-        // Обработать данные
-        for (int i = 0; i < readByteCount; ++i) {
-            buffer[i] = toupper(buffer[i]);
-        }
-        printf("Received data from client: %s", buffer);
-        // Отправить обработанные данные клиенту.
-        const int sendByteCount = udpSocket->SendTo(buffer, readByteCount, *clientAddress);
-    }
+    UDPServer server("192.168.0.105:7891");
+    server.Run();
 #endif
 
 #ifdef CLIENT
