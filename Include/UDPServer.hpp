@@ -17,14 +17,21 @@ public:
     explicit UDPServer(const std::string& inServerAddress);
     virtual ~UDPServer();
 
+    /** Процесс запуска сервера для приема и обработки данных */
     void Run();
+
+    /** Получение адреса сервера
+     * 
+     * @return Адрес сервера
+     */
     SocketAddressPtr GetAddress() const;
 
 private:
     UDPSocketPtr mSocket;
     SocketAddressPtr mAddress;
-    
 
+
+    void ProcessReceivedData(char* outBuffer);
 };
 
 #endif /* UDPSERVER_HPP */

@@ -20,6 +20,7 @@ UDPServer::UDPServer(const std::string& inServerAddress)
 
 UDPServer::~UDPServer() {}
 
+/** Процесс запуска сервера для приема и обработки данных */
 void UDPServer::Run() {
     printf("UDP Server is Running\n");
     
@@ -30,22 +31,37 @@ void UDPServer::Run() {
     bool IsUDPServerRun = true;
     while (IsUDPServerRun) {
         // Получить данные
-        const int readByteCount = mSocket->ReceiveFrom(buffer, BUFFER_SIZE, *clientAddress);
-        if (readByteCount < 0) {
+        const int receivedByteCount = mSocket->ReceiveFrom(buffer, BUFFER_SIZE, *clientAddress);
+        if (receivedByteCount < 0) {
             exit(1);
         }
 
         printf("Received data from client: %s", buffer);
         
         // Обработать данные
-        for (int i = 0; i < readByteCount; ++i) {
-            buffer[i] = toupper(buffer[i]);
-        }
+        ProcessReceivedData(buffer, receivedByteCount);
         // Отправить обработанные данные клиенту.
-        const int sendByteCount = mSocket->SendTo(buffer, readByteCount, *clientAddress);
+        const int sentByteCount = mSocket->SendTo(buffer, receivedByteCount, *clientAddress);
+        if (sentByteCount < 0) {
+            exit (1);
+        }
     }
 }
 
+    /** Получение адреса сервера
+     * 
+     * @return Адрес сервера
+     */
 SocketAddressPtr UDPServer::GetAddress() const {
     return mAddress;
 }
+
+    /** Обработка входящих данных
+     * 
+     * @param outBuffer - данные для обработки
+     */
+    void ProcessReceivedData(char* outBuffer, int receivedByteCount) {
+        for (int i = 0; i < receivedByteCount; ++i) {
+            outBuffer[i] = toupper(outBuffer[i]);
+        }
+    }
