@@ -21,7 +21,7 @@ UDPClient::~UDPClient() {
 void UDPClient::Run() {
     printf("UDP Server is Running\n");
 
-    constexpr size_t BUFFER_SIZE = 1024;
+    const size_t BUFFER_SIZE = 1024;
     char buffer[BUFFER_SIZE];
     bool IsUDPClientRun = true;
     while (IsUDPClientRun) {

@@ -13,6 +13,7 @@
 #include "SocketAddressFactory.hpp"
 #include "SocketUtil.hpp"
 #include "UDPServer.hpp"
+#include "UDPClient.hpp"
 
 using namespace std;
 
@@ -33,27 +34,10 @@ int main(int argc, char** argv) {
     /* ********************* UDP SERVER ********************* */
     UDPServer server("192.168.0.104:7891");
     server.Run();
-#endif
-
-#ifdef CLIENT
+#else
     /* ********************* UDP CLIENT ********************* */
-    // 1. Создать UDP socket
-    auto udpSocket = SocketUtil::CreateUDPSocket(INET);
-    assert(udpSocket);
-    // 2. Задать SocketAddress сервера
-    auto serverAddress = SocketAddressFactory::CreateIPv4FromString("192.168.0.105:7891");
-    assert(serverAddress);
-    // 4. Цикл UDP клиента
-    char buffer[BUFFER_SIZE];
-    bool IsUDPClientRun = true;
-    while (IsUDPClientRun) {
-        printf("Type a sentence to send to server:\n");
-        fgets(buffer, BUFFER_SIZE, stdin);
-        printf("You typed: %s", buffer);
-
-        // Отправить данные серверу
-        const int sendByteCount = udpSocket->SendTo(buffer, BUFFER_SIZE, *serverAddress);
-    }
+    UDPClient client("192.168.0.104:7891");
+    client.Run();
 #endif
 
 #ifdef _WIN32
