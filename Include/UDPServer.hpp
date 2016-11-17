@@ -33,8 +33,9 @@ private:
     /** Обработка входящих данных
      * 
      * @param outBuffer - данные для обработки
+     * @param inReceivedDataCount - количество данных для обработки
      */
-    void ProcessReceivedData(char* outBuffer, const int inReceivedDataCount);
+    void ProcessReceivedData(char* outBuffer, const int inReceivedByteCount);
 };
 
 #endif /* UDPSERVER_HPP */

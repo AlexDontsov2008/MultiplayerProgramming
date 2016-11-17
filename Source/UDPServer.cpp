@@ -60,8 +60,9 @@ SocketAddressPtr UDPServer::GetAddress() const {
      * 
      * @param outBuffer - данные для обработки
      */
-void UDPServer::ProcessReceivedData(char* outBuffer, const int receivedByteCount) {
-    for (int i = 0; i < receivedByteCount; ++i) {
+
+void UDPServer::ProcessReceivedData(char* outBuffer, const int inReceivedByteCount) {
+    for (int i = 0; i < inReceivedByteCount; ++i) {
         outBuffer[i] = toupper(outBuffer[i]);
     }
 }
