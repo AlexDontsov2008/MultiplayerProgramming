@@ -11,11 +11,11 @@
 class Uncopyable {
 protected:
     Uncopyable() {}
-    ~Uncopyable() {}
+    virtual ~Uncopyable() {}
 
 private:
-    Uncopyable(const Uncopyable&) = delete;
-    Uncopyable& operator=(const Uncopyable&) = delete;
+    Uncopyable(const Uncopyable&);
+    Uncopyable& operator=(const Uncopyable&);
 };
 
 #endif /* UNCOPYABLE_HPP */

@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 
 #ifdef SERVER
     /* ********************* UDP SERVER ********************* */
-    UDPServer server("192.168.0.105:7891");
+    UDPServer server("192.168.0.104:7891");
     server.Run();
 #endif
 

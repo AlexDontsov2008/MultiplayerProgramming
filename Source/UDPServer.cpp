@@ -9,7 +9,7 @@
 #include "SocketUtil.hpp"
 #include "SocketAddressFactory.hpp"
 
-UDPServer::UDPServer(const std::string& inServerAddress) 
+UDPServer::UDPServer(const std::string& inServerAddress)
 : mSocket(SocketUtil::CreateUDPSocket(SocketAddressFamily::INET))
 , mAddress(SocketAddressFactory::CreateIPv4FromString(inServerAddress)) {
     int error = mSocket->Bind(*mAddress);
@@ -24,7 +24,7 @@ UDPServer::~UDPServer() {}
 void UDPServer::Run() {
     printf("UDP Server is Running\n");
     
-    constexpr size_t BUFFER_SIZE = 1024;
+    const size_t BUFFER_SIZE = 1024;
     SocketAddressPtr clientAddress = std::make_shared<SocketAddress>();
     char buffer[BUFFER_SIZE];
     
