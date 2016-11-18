@@ -101,6 +101,53 @@ int TCPSocket::Bind(const SocketAddress& inBindAddress) {
     return NO_ERROR;
 }
 
+/** Устанавливает сокет в non-blocking mode
+ * 
+ * @return состояние выполнения
+ */
+int TCPSocket::SetNonBlockingMode() {
+#ifdef _WIN32
+    return ChangeBlockingMode(1, "TCPSocket::SetNonBlockingMode");
+#else
+    int flags = fcntl(mSocket, F_GETFL, 0);
+    return ChangeBlockingMode(flags | O_NONBLOCK, "TCPSocket::SetNonBlockingMode");
+#endif
+}
+
+/** Устанавливает сокет в blocking mode
+ * 
+ * @return состояние выполнения
+ */
+int TCPSocket::SetBlockingMode() {
+#ifdef _WIN32
+    return ChangeBlockingMode(0, "TCPSocket::SetBlockingMode");
+#else
+    int flags = fcntl(mSocket, F_GETFL, 0);
+    return ChangeBlockingMode(flags & ~O_NONBLOCK, "TCPSocket::SetBlockingMode");
+#endif
+}
+
+/** Устанавливает сокет в указанное состояние
+* 
+* @param inFlags - задают состояние сокета
+* @param inInvokedMethodName - имя вызывающего метода
+* @return состояние выполнения
+*/
+int TCPSocket::ChangeBlockingMode(int flags, const std::string& invokedMethodName) {
+#ifdef _WIN32
+    int result = ioctlsocket(mSocket, FIONBIO, &(u_long)arg);
+#else
+    int result = fcntl(mSocket, F_SETFL, flags);
+#endif
+
+    if (result == SOCKET_ERROR) {
+        SocketUtil::ReportError(invokedMethodName.c_str());
+        return SocketUtil::GetLastError();
+    } else {
+        return NO_ERROR;
+    }
+}
+
 TCPSocket::~TCPSocket() {
 #if _WIN32
     closesocket(mSocket);

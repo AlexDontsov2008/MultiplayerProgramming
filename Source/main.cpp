@@ -14,6 +14,7 @@
 #include "SocketUtil.hpp"
 #include "UDPServer.hpp"
 #include "UDPClient.hpp"
+#include "TCPServer.hpp"
 
 using namespace std;
 
@@ -31,11 +32,12 @@ int main(int argc, char** argv) {
 #endif
 
 #ifdef SERVER
-    /* ********************* UDP SERVER ********************* */
-    UDPServer server("192.168.0.104:7891");
+    /* ********************* SERVER ********************* */
+    TCPServer server("192.168.0.105:7891");
     server.Run();
+
 #else
-    /* ********************* UDP CLIENT ********************* */
+    /* ********************* CLIENT ********************* */
     UDPClient client("192.168.0.104:7891");
     client.Run();
 #endif

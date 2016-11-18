@@ -63,9 +63,29 @@ public:
      */
     int Bind(const SocketAddress& inToAddress);
 
+    /** Устанавливает сокет в non-blocking mode
+     * 
+     * @return состояние выполнения
+     */
+    int SetNonBlockingMode();
+
+    /** Устанавливает сокет в blocking mode
+     * 
+     * @return состояние выполнения
+     */
+    int SetBlockingMode();
+
 private:
     friend class SocketUtil;
     TCPSocket(SOCKET inSocket) : mSocket(inSocket) {}
+
+    /** Устанавливает сокет в указанное состояние
+     * 
+     * @param inFlags - задают состояние сокета
+     * @param inInvokedMethodName - имя вызывающего метода
+     * @return состояние выполнения
+     */
+    int ChangeBlockingMode(int inFlags, const std::string& inInvokedMethodName);
 
 private:
     SOCKET mSocket;
