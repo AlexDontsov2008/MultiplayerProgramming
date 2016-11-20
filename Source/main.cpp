@@ -16,10 +16,6 @@
 #include "UDPClient.hpp"
 #include "TCPServer.hpp"
 
-using namespace std;
-
-const size_t BUFFER_SIZE = 1024;
-
 int main(int argc, char** argv) {
 #ifdef _WIN32
     WSAData wsaData;
@@ -33,12 +29,12 @@ int main(int argc, char** argv) {
 
 #ifdef SERVER
     /* ********************* SERVER ********************* */
-    TCPServer server("192.168.0.105:7891");
+    TCPServer server;
     server.Run();
 
 #else
     /* ********************* CLIENT ********************* */
-    UDPClient client("192.168.0.104:7891");
+    TCPClient client("5.228.255.178:DEFAULT_PORT");
     client.Run();
 #endif
 

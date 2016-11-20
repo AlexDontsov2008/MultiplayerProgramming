@@ -29,12 +29,12 @@ int TCPSocket::Connect(const SocketAddress& inAddress) {
 * @return состояние выполнение
 */
 int TCPSocket::Listen(int inBackLog) {
-    int err = listen(mSocket, inBackLog);
+    int err =  listen(mSocket, inBackLog);
     if (err < 0) {
         SocketUtil::ReportError("TCPSocket::Listen");
         return -SocketUtil::GetLastError();
     }
-    
+
     return NO_ERROR;
 }
 
@@ -46,7 +46,7 @@ int TCPSocket::Listen(int inBackLog) {
 TCPSocketPtr TCPSocket::Accept(SocketAddress& inFromAddress) {
     socklen_t length = inFromAddress.GetSize();
     SOCKET newSocket = accept(mSocket, &inFromAddress.mSockAddr, &length);
-    
+
     if (newSocket != INVALID_SOCKET) {
         return TCPSocketPtr(new TCPSocket(newSocket));
     } else {

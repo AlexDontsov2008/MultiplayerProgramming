@@ -13,10 +13,14 @@
 #include "TCPSocket.hpp"
 #include "SocketAddress.hpp"
 #include "Uncopyable.hpp"
+#include "SocketUtil.hpp"
+
+const size_t DEFAULT_PORT = 48000;
 
 class TCPServer : private Uncopyable {
 public:
-    TCPServer(const std::string& inAddress);
+    TCPServer();
+    explicit TCPServer(const std::string& inAddress);
     virtual ~TCPServer();
 
     /** Процесс запуска сервера для приема и обработки данных */
@@ -36,9 +40,10 @@ private:
     };
 
 private:
-    TCPSocketPtr mSocket;
+    TCPSocketPtr mListenSocket;
     SocketAddressPtr mAddress;
-    std::vector<ClientInfo> mClients;
+    SocketsVector mReadableSockets;
+    SocketsVector mReadSockets;
 };
 
 #endif /* TCPSERVER_HPP */
