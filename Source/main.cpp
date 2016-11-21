@@ -15,6 +15,7 @@
 #include "UDPServer.hpp"
 #include "UDPClient.hpp"
 #include "TCPServer.hpp"
+#include "TCPClient.hpp"
 
 int main(int argc, char** argv) {
 #ifdef _WIN32
@@ -34,7 +35,7 @@ int main(int argc, char** argv) {
 
 #else
     /* ********************* CLIENT ********************* */
-    TCPClient client("5.228.255.178:DEFAULT_PORT");
+    TCPClient client("192.168.0.105:48000");
     client.Run();
 #endif
 

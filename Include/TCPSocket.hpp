@@ -9,6 +9,7 @@
 #define TCPSOCKET_HPP
 
 #include <memory>
+#include <string>
 
 #include "SocketSharedInfo.hpp"
 

@@ -15,9 +15,9 @@
 #include "Uncopyable.hpp"
 #include "SocketUtil.hpp"
 
-const size_t DEFAULT_PORT = 48000;
-
 class TCPServer : private Uncopyable {
+public:
+    static const size_t DEFAULT_PORT;
 public:
     TCPServer();
     explicit TCPServer(const std::string& inAddress);

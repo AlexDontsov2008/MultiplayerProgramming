@@ -11,6 +11,8 @@
 #include "SocketUtil.hpp"
 #include "SocketAddressFactory.hpp"
 
+const size_t TCPServer::DEFAULT_PORT = 48000;
+
 TCPServer::TCPServer()
 : mListenSocket(SocketUtil::CreateTCPSocket(SocketAddressFamily::INET))
 , mAddress(new SocketAddress(INADDR_ANY, DEFAULT_PORT)) {

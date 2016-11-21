@@ -135,7 +135,8 @@ int TCPSocket::SetBlockingMode() {
 */
 int TCPSocket::ChangeBlockingMode(int flags, const std::string& invokedMethodName) {
 #ifdef _WIN32
-    int result = ioctlsocket(mSocket, FIONBIO, &(u_long)arg);
+    u_long arg = static_cast<u_long>(flags);
+    int result = ioctlsocket(mSocket, FIONBIO, &arg);
 #else
     int result = fcntl(mSocket, F_SETFL, flags);
 #endif
