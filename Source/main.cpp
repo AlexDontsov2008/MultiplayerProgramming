@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 
 #else
     /* ********************* CLIENT ********************* */
-    TCPClient client("192.168.0.105:48000");
+    TCPClient client("192.168.0.104:48000");
     client.Run();
 #endif
 

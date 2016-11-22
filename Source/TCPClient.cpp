@@ -11,7 +11,7 @@ TCPClient::TCPClient(const std::string& inServerAddress)
 TCPClient::~TCPClient() {}
 
 
-/** Процесс запуска сервера для приема и обработки данных */
+/** Р—Р°РїСѓСЃРє РєР»РёРµРЅС‚Р° Рё РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµСЂРІРµСЂСѓ */
 void TCPClient::Run() {
     int error = mSocket->Connect(*mServerAddress);
     if (error != NO_ERROR) {

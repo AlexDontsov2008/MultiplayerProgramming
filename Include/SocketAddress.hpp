@@ -51,7 +51,7 @@ public:
         return destinationBuffer;
 #else
         //not implement on UNIX for now...
-        return string( "not implemented on mac for now" );
+        return std::string( "not implemented on mac for now" );
 #endif
     }
 
