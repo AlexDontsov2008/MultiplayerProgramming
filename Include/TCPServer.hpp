@@ -18,6 +18,7 @@
 class TCPServer : private Uncopyable {
 public:
     static const size_t DEFAULT_PORT;
+
 public:
     TCPServer();
     explicit TCPServer(const std::string& inAddress);
@@ -30,7 +31,7 @@ public:
      * 
      * @return количество клиентов
      */
-    size_t CountOfConnectedClients() const;
+    int CountOfConnectedClients() const;
 
 private:
 /* Хранит данные о клиенте для связи с ним */

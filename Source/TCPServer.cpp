@@ -37,8 +37,8 @@ TCPServer::~TCPServer() {}
  * 
  * @return количество клиентов
  */
-size_t TCPServer::CountOfConnectedClients() const {
-    return mReadSockets.size();
+int TCPServer::CountOfConnectedClients() const {
+    return mReadSockets.size() - 1;
 }
 
 /** Процесс запуска сервера для приема и обработки данных */
@@ -60,7 +60,7 @@ void TCPServer::Run() {
                     SocketAddress newClientAddress;
                     auto newSocket = mListenSocket->Accept(newClientAddress);
                     mReadSockets.push_back(newSocket);
-                    printf("Count of connected clients: %zu", CountOfConnectedClients());
+                    printf("Count of connected clients: %d\n", CountOfConnectedClients());
                     // Process the new client
                 } else {
                     const size_t GOOD_SEGMENT_SIZE = 512;
@@ -68,10 +68,11 @@ void TCPServer::Run() {
                     
                     int receivedByteCount = socket->Receive(buffer, GOOD_SEGMENT_SIZE);
                     if (receivedByteCount > 0) {
-                        printf("Received data from client: %s", buffer);
+                        printf("Received data: \"%s\" from client", buffer);
                     }
                 }
             }
+            mReadableSockets.clear();
         }
     }
 }

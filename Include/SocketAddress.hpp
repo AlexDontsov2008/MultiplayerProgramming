@@ -42,6 +42,19 @@ public:
         return sizeof (sockaddr);
     }
 
+    std::string ToString() const {
+#if _WIN32
+        const sockaddr_in* s = GetAsSockAddrIn();
+        char destinationBuffer[128];
+        InetNtop( s->sin_family, const_cast< in_addr* >( &s->sin_addr ), (PWSTR)destinationBuffer, sizeof( destinationBuffer ) );
+        sprintf(destinationBuffer, "%s:%d", destinationBuffer, ntohs(s->sin_port));
+        return destinationBuffer;
+#else
+        //not implement on UNIX for now...
+        return string( "not implemented on mac for now" );
+#endif
+    }
+
     void Info() const {
         std::cout << "**************** SocketAddress Info ****************" << std::endl;
         const auto sockAddrPtr = GetAsSockAddrIn();
