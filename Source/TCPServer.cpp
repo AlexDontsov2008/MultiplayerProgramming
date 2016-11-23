@@ -68,8 +68,12 @@ void TCPServer::Run() {
                     
                     int receivedByteCount = socket->Receive(buffer, GOOD_SEGMENT_SIZE);
                     if (receivedByteCount > 0) {
-                        printf("Received data: \"%s\" from client", buffer);
-                    }
+                        SocketAddress socketAddr;
+                        socket->GetPeerName(socketAddr);
+                        const std::string clientIP = socketAddr.ToString();
+                        printf("Received data: %s", buffer);
+                        printf("Client IP: %s\n", clientIP.c_str());
+                    }                    
                 }
             }
             mReadableSockets.clear();

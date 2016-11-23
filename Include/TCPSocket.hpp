@@ -76,6 +76,12 @@ public:
      */
     int SetBlockingMode();
 
+    /** Получение адреса текущего сокета
+    * 
+    * @return результат выполнения
+    */
+    int GetPeerName(SocketAddress& outAddress) const;
+
 private:
     friend class SocketUtil;
     TCPSocket(SOCKET inSocket) : mSocket(inSocket) {}

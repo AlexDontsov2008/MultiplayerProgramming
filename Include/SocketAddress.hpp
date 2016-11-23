@@ -43,35 +43,20 @@ public:
     }
 
     std::string ToString() const {
-#if _WIN32
+        const socklen_t BUFFER_SIZE = 128;
+        char destinationBuffer[BUFFER_SIZE];
         const sockaddr_in* s = GetAsSockAddrIn();
-        char destinationBuffer[128];
+#if _WIN32
         InetNtop( s->sin_family, const_cast< in_addr* >( &s->sin_addr ), (PWSTR)destinationBuffer, sizeof( destinationBuffer ) );
         sprintf(destinationBuffer, "%s:%d", destinationBuffer, ntohs(s->sin_port));
-        return destinationBuffer;
 #else
-        //not implement on UNIX for now...
-        return std::string( "not implemented on mac for now" );
-#endif
-    }
-
-    void Info() const {
-        std::cout << "**************** SocketAddress Info ****************" << std::endl;
-        const auto sockAddrPtr = GetAsSockAddrIn();
-
-        std::cout << "sin_family: ";
-        switch (sockAddrPtr->sin_family) {
-            case PF_INET:
-                std::cout << "IPv4" << std::endl;
-                break;
-            case PF_INET6:
-                std::cout << "IPv6" << std::endl;
-                break;
-            default:
-                std::cout << "Unspecified" << std::endl;
+        const char* result = inet_ntop(s->sin_family, &s->sin_addr, destinationBuffer, BUFFER_SIZE);
+        if (!result) {
+            // TODO
+            exit(1);
         }
-
-        std::cout << "Port: " << ntohs(sockAddrPtr->sin_port) << std::endl;
+#endif
+        return destinationBuffer;
     }
 
 private:

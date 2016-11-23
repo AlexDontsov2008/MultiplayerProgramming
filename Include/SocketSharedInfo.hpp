@@ -24,6 +24,7 @@ typedef int socklen_t;
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 
 typedef int SOCKET;
 const int NO_ERROR = 0;

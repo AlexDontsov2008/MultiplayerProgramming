@@ -127,6 +127,24 @@ int TCPSocket::SetBlockingMode() {
 #endif
 }
 
+
+/** Получение адреса текущего сокета
+* 
+* @return результат выполнения
+*/
+int TCPSocket::GetPeerName(SocketAddress& outAddress) const {
+#ifdef _WIN32
+    // TODO
+#else
+    socklen_t sockLength = sizeof(outAddress.mSockAddr);
+    int error = getpeername(mSocket, &outAddress.mSockAddr, &sockLength);
+    if (error != NO_ERROR) {
+        SocketUtil::ReportError("TCPSocket::GetPeerName");
+        exit(1);
+    }
+#endif
+}
+
 /** Устанавливает сокет в указанное состояние
 * 
 * @param inFlags - задают состояние сокета
