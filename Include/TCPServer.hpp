@@ -43,7 +43,6 @@ private:
 private:
     TCPSocketPtr mListenSocket;
     SocketAddressPtr mAddress;
-    SocketsVector mReadableSockets;
     SocketsVector mReadSockets;
 };
 

@@ -50,12 +50,13 @@ void TCPServer::Run() {
         exit(1);
     }
 
+    SocketsVector readableSockets;
     const bool IsServerRunning = true;
     while (IsServerRunning) {
-        if (SocketUtil::Select( &mReadSockets, &mReadableSockets,
+        if (SocketUtil::Select( &mReadSockets, &readableSockets,
                                 nullptr, nullptr,
                                 nullptr, nullptr)) {
-            for (const TCPSocketPtr& socket : mReadableSockets) {
+            for (const TCPSocketPtr& socket : readableSockets) {
                 if (socket == mListenSocket) {
                     SocketAddress newClientAddress;
                     auto newSocket = mListenSocket->Accept(newClientAddress);
@@ -76,7 +77,7 @@ void TCPServer::Run() {
                     }                    
                 }
             }
-            mReadableSockets.clear();
+            readableSockets.clear();
         }
     }
 }
