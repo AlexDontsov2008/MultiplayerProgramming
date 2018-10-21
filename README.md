@@ -1,2 +1,2 @@
 # Multiplayer game programming
-Tutorial project for learning multiplayer game programming
+Project for studying multiplayer game programming
